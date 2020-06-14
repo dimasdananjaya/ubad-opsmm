@@ -1,0 +1,29 @@
+nav img{
+    width: 4em;
+    height: 3em;
+}
+
+body{
+    background-color: #0a97b0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+/*************index page********************/
+#index-page .card{
+    max-width: 25em;
+    border: none;
+    border-radius: 1em;
+}
+
+#index-page .round-btn{
+    border-radius: 1em;
+    width: 8em;
+}
+
+#index-page .card-header{
+    background-color: #4cd3c2;
+    border-radius: 1em 1em 0 0;
+}
+
+/*************end index page********************/
