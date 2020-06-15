@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <a href="/admin" class="btn btn-primary">Back to Admin Home</a>
                 </div>
             </div>
         </div>

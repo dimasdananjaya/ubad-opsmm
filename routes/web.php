@@ -19,4 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/admin', 'AdminController@index')->name('admin-home');
+Route::get('/admin-kelola-periode', 'PeriodeController@index')->name('admin-periode');
+Route::post('/admin-store-periode', 'PeriodeController@store')->name('admin-periode-update');
+Route::put('/admin-update-periode', 'PeriodeController@update')->name('admin-periode-update');
+Route::get('/admin-kelola-users', 'AdminController@kelolaUser')->name('admin-users');
 Route::get('/home', 'HomeController@index')->name('home');
