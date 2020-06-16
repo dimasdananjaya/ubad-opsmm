@@ -57,3 +57,58 @@ body{
 }
 
 /*************end admin-home page********************/
+
+/*************admin-kelola-periode page********************/
+#admin-kelola-periode .background{
+    background-color: #fff;
+    padding: 1em 1em 1em 1em;
+    border-radius: 0.5em;
+}
+
+#admin-kelola-periode .card-img{
+   width: 20em;
+   height: 18em;
+}
+
+#admin-kelola-periode .card{
+    border-radius: 0.6em;
+    max-width: 25em;
+    margin-top: 1.5em;
+}
+
+#admin-kelola-periode .round-btn{
+    border-radius: 1em;
+    width: 8em;
+}
+
+#admin-kelola-periode .card-header{
+    background-color: #4cd3c2;
+    border-radius: 0.6em 0.6em 0 0;
+}
+
+/*************end admin-kelola-periode page********************/
+
+/*************admin-manajemen-uang-periode page********************/
+#admin-manajemen-uang-periode .background{
+    background-color: #fff;
+    padding: 1em 1em 1em 1em;
+    border-radius: 0.5em;
+}
+
+#admin-manajemen-uang-periode .card-img{
+   width: 20em;
+   height: 18em;
+}
+
+
+#admin-manajemen-uang-periode .round-btn{
+    border-radius: 1em;
+    width: 8em;
+}
+
+#admin-manajemen-uang-periode .card-header{
+    background-color: #4cd3c2;
+    border-radius: 0.6em 0.6em 0 0;
+}
+
+/*************end admin-kelola-periode page********************/

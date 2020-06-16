@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('content')
 <section id="admin-pilih-periode">
@@ -18,7 +18,7 @@
                         <td>{{$dtprd->periode}}</td>
                         <td>{{$dtprd->status}}</td>
                         <td>
-                            {!!Form::open(['action'=>['BAPLaporanController@showBAPPeriodeAdmin', $dtprd->id_periode], 'method'=>'GET'])!!}
+                            {!!Form::open(['action'=>['ManajemenUangController@showManajemenUangPeriode', $dtprd->id_periode], 'method'=>'GET'])!!}
                                 {{Form::hidden('id_periode',"$dtprd->id_periode")}}
                                 {{Form::submit('Pilih',['class'=>'btn btn-success btn-block'])}}
                             {!!Form::close()!!}

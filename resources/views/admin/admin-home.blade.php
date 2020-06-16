@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><b>Dana Opersional</b></h5>
                             <p class="card-text">Kelola dana operasional per-periode</p>
-                            <a href="" class="btn btn-primary round-btn">Pilih</a>
+                            <a href="{{route('admin.pilih.periode')}}" class="btn btn-primary round-btn">Pilih</a>
                         </div><!--end card-body-->
                     </div><!--end card-->
                 </div><!--end col-->
@@ -28,7 +28,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><b>Periode</b></h5>
                             <p class="card-text">Kelola data periode</p>
-                            <a href="{{ route('admin-periode') }}" class="btn btn-primary round-btn">Pilih</a>
+                            <a href="{{ route('admin.periode') }}" class="btn btn-primary round-btn">Pilih</a>
                         </div><!--end card-body-->
                     </div><!--end card-->
                 </div><!--end col-->
