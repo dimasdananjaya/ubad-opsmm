@@ -7,6 +7,7 @@ use App\PeriodeModel;
 use DB;
 use Alert;
 use Validator;
+use App\ManajemenUangModel;
 
 class ManajemenUangController extends Controller
 {
@@ -43,20 +44,29 @@ class ManajemenUangController extends Controller
             'penanggung_jawab'=> 'required',
             'file'=> 'required',
             'jumlah'=> 'required',
+            'keterangan'=> 'required',
         ]);
 
         if ($validator->fails()) {
-            Alert::error('Data BAP Gagal Disimpan!', 'Isi Formulir Dengan Benar');
+            Alert::error('Data Pengeluaran Gagal Disimpan!', 'Isi Formulir Dengan Benar');
             return back();
         }
-        else{
-            $data = BAPModel::create([
+
+        elseif($request->hasFile('file')){
+
+            $file = $request->file('file');
+            $name = time() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('/resources/file');
+            $file->move($destinationPath, $name);
+
+            $data = ManajemenUangModel::create([
                 'id_user' => $request->input('id_user'),
                 'id_periode' => $request->input('id_periode'),
                 'nama_dana' => $request->input('nama_dana'),
                 'penanggung_jawab' => $request->input('penanggung_jawab'),
-                'file' => $request->input('file'),
-                'jumlah' => $request->input('materi'),
+                'file' => $name,
+                'jumlah' => $request->input('jumlah'),
+                'keterangan' => $request->input('keterangan'),
             ]);
 
             $data->save();

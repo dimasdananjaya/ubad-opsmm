@@ -26,6 +26,6 @@ Route::put('/admin-update-periode', 'PeriodeController@update')->name('admin.per
 Route::get('/admin-kelola-users', 'AdminController@kelolaUser')->name('admin.users');
 Route::get('/admin-pilih-periode', 'ManajemenUangController@pilihPeriode')->name('admin.pilih.periode');
 Route::get('/admin-show-manajemen-periode', 'ManajemenUangController@showManajemenUangPeriode')->name('admin.show.keuangan');
-Route::get('/admin-store-pengeluaran', 'ManajemenUangController@storePengeluaran')->name('admin.store.pengeluaran');
-Route::get('/admin-store-update-pengeluaran', 'ManajemenUangController@updatePengeluaran')->name('admin.update.pengeluaran');
+Route::post('/admin-store-pengeluaran', 'ManajemenUangController@storePengeluaran')->name('admin.store.pengeluaran');
+Route::put('/admin-store-update-pengeluaran', 'ManajemenUangController@updatePengeluaran')->name('admin.update.pengeluaran');
 Route::get('/home', 'HomeController@index')->name('home');

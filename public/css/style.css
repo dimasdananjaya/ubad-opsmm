@@ -107,8 +107,19 @@ body{
 }
 
 #admin-manajemen-uang-periode .card-header{
-    background-color: #4cd3c2;
+    background-color: #0a97b0;
+    color: #fff;
     border-radius: 0.6em 0.6em 0 0;
+}
+
+#admin-manajemen-uang-periode .card{
+    border-radius: 0.6em 0.6em 0.6em 0.6em;
+    margin-top: 2em;
+}
+
+#admin-manajemen-uang-periode img{
+    width: 18em;
+    height: 17em;
 }
 
 /*************end admin-kelola-periode page********************/
