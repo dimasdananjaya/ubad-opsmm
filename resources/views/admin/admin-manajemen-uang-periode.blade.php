@@ -6,8 +6,8 @@
         <div class="background">
         <h2 class="text-center">Manajemen Uang Periode {{$periode->periode}}</h2>
             <hr>
-            <div class="row">
-                <div class="col-lg-4">
+            <div class="carousel">
+
                     <div class="card text-center">
                         <div class="card-header">
                             <h5><b>Total Pengeluaran</b></h5>
@@ -17,9 +17,7 @@
                             <p><b>Rp. 15.000.000</b></p>
                         </div>
                     </div><!--card-->
-                </div><!--col-->
 
-                <div class="col-lg-4">
                     <div class="card text-center">
                         <div class="card-header">
                             <h5><b>Sisa Dana</b></h5>
@@ -29,9 +27,8 @@
                             <p><b>Rp. 15.000.000</b></p>
                         </div>
                     </div><!--card-->
-                </div><!--col-->
 
-                <div class="col-lg-4">
+
                     <div class="card text-center">
                         <div class="card-header">
                             <h5><b>Modal Awal</b></h5>
@@ -41,9 +38,7 @@
                             <p><b>Rp. 15.000.000</b></p>
                         </div>
                     </div><!--card-->
-                </div><!--col-->
-
-            </div><!--row-->
+            </div><!--carousel-->
             
             <h3 class="mt-4">Detail Pengeluaran</h3>
             
@@ -82,10 +77,10 @@
             </div><!--modal-->
             <hr>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#tambahPengeluaranModal">
+            <button type="button" class="btn btn-success mb-4" data-toggle="modal" data-target="#tambahPengeluaranModal">
                 Tambah Pengeluaran
             </button>
-            <table id="tabel" class="table table-sm table-hover table-striped text-center table-responsive-sm table-responsive-md" id="tabel-periode">
+            <table id="tabel" class="table table-sm table-hover table-striped text-center table-responsive-sm table-responsive-md">
                 <thead>
                     <th>No.</th>
                     <th>Nama Dana</th>
@@ -93,6 +88,8 @@
                     <th>Penanggung Jawab</th>
                     <th>Keterangan</th>
                     <th>File</th>
+                    <th>Aksi</th>
+                    <th></th>
                 </thead>
                 <tbody>
                     @foreach ($dataLaporanManajemenUang as $dtlpmu)
@@ -102,11 +99,16 @@
                         <td>{{$dtlpmu->jumlah}}</td>
                         <td>{{$dtlpmu->penanggung_jawab}}</td>
                         <td>{{$dtlpmu->keterangan}}</td>
-                        <td>{{$dtlpmu->file}}</td>
+                        <td>
+                            {!!Form::open(['action'=>['ManajemenUangController@downloadFile', $dtlpmu->id_dana_operasional], 'method'=>'GET'])!!}
+                                {{Form::hidden('file',$dtlpmu->file)}}
+                                {{Form::submit('Download File',['class'=>'btn btn-light'])}}
+                            {!!Form::close()!!}
                         <td>
                             <a class="btn btn-success" style="color:#fff;float:center;" data-toggle="modal" 
                             data-target="#periode-edit-modal{{$dtlpmu->id_dana_operasional}}">Edit</a>
-                        </td>          
+                        </td>
+                        <td></td>          
                         <!-- Modal Edit Periode-->
                         <div class="modal fade" id="periode-edit-modal{{$dtlpmu->id_dana_operasional}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
@@ -143,17 +145,21 @@
 
 <script>
     $(document).ready(function() {
-        $('#tabel').DataTable();
+        var t = $('#tabel').DataTable( {
+            "columnDefs": [ {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            } ],
+            "order": [[ 1, 'asc' ]]
+        } );
+    
+        t.on( 'order.dt search.dt', function () {
+            t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     } );
-
-    $(document).ready(function(){
-        $('.carousel').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-        });
-    });
 </script>
 @endsection
 

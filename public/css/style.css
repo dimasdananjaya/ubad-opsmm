@@ -95,11 +95,6 @@ body{
     border-radius: 0.5em;
 }
 
-#admin-manajemen-uang-periode .card-img{
-   width: 20em;
-   height: 18em;
-}
-
 
 #admin-manajemen-uang-periode .round-btn{
     border-radius: 1em;
@@ -115,11 +110,13 @@ body{
 #admin-manajemen-uang-periode .card{
     border-radius: 0.6em 0.6em 0.6em 0.6em;
     margin-top: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 #admin-manajemen-uang-periode img{
-    width: 18em;
-    height: 17em;
+    max-width: 18em;
+    max-height: 17em;
 }
 
 /*************end admin-kelola-periode page********************/

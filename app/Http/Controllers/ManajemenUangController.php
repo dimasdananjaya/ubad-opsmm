@@ -8,6 +8,7 @@ use DB;
 use Alert;
 use Validator;
 use App\ManajemenUangModel;
+use Storage;
 
 class ManajemenUangController extends Controller
 {
@@ -27,7 +28,8 @@ class ManajemenUangController extends Controller
     {
         $id_periode=$request->input('id_periode');
         $periode = PeriodeModel::where('id_periode', $id_periode)->first();
-        $dataTotalLaporanManajemenUang=DB::select(DB::raw("SELECT dana_operasional.jumlah, SUM(jumlah) AS total_pengeluaran from dana_operasional WHERE id_periode=$id_periode GROUP BY $id_periode"));
+        $dataTotalLaporanManajemenUang=DB::select(DB::raw("SELECT dana_operasional.jumlah, SUM(jumlah) AS total_pengeluaran from dana_operasional 
+        WHERE id_periode=$id_periode GROUP BY 1"));
         $dataLaporanManajemenUang=DB::select(DB::raw("SELECT * FROM dana_operasional WHERE id_periode=$id_periode"));
 
         return view('admin.admin-manajemen-uang-periode')
@@ -56,8 +58,11 @@ class ManajemenUangController extends Controller
 
             $file = $request->file('file');
             $name = time() . '.' . $file->getClientOriginalExtension();
-            $destinationPath = public_path('/resources/file');
-            $file->move($destinationPath, $name);
+            //$destinationPath = public_path('/resources/file');
+            $path = $request->file('file')->storeAs(
+                'file', $name
+            );
+            //$file->move($destinationPath, $name);
 
             $data = ManajemenUangModel::create([
                 'id_user' => $request->input('id_user'),
@@ -78,34 +83,55 @@ class ManajemenUangController extends Controller
 
     public function updatePengeluaran(Request $request, $id)
     {
-        $bap=BAPModel::find($id);
+        $data=ManajemenUangModel::find($id);
 
         $validator = Validator::make($request->all(), [
             'id_user'=> 'required',
             'id_periode'=> 'required',
-            'tanggal' => 'required',
-            'mata_kuliah'=> 'required',
-            'jam'=> 'required',
-            'sks'=> 'required',
-            'materi'=> 'required',
+            'nama_dana' => 'required',
+            'penanggung_jawab'=> 'required',
+            'file'=> 'required',
+            'jumlah'=> 'required',
+            'keterangan'=> 'required',
         ]);
 
         if ($validator->fails()) {
-            Alert::error('Data BAP Gagal Disimpan!', 'Kembali');
+            Alert::error('Data Pengeluaran Gagal Disimpan!', 'Isi Formulir Dengan Benar');
             return back();
         }
 
-        else{  
-            $bap->id_user=$request->input('id_user');
-            $bap->id_periode=$request->input('id_periode');
-            $bap->tanggal=$request->input('tanggal');
-            $bap->mata_kuliah=$request->input('mata_kuliah');
-            $bap->jam=$request->input('jam');
-            $bap->sks=$request->input('sks');
-            $bap->materi=$request->input('materi');
-            $bap->save();
-            Alert::success('Data BAP Berhasil Disimpan!');
+        elseif($request->hasFile('file')){
+
+            $file = $request->file('file');
+            $name = time() . '.' . $file->getClientOriginalExtension();
+            //$destinationPath = public_path('/resources/file');
+            $path = Storage::putFile(
+                'public/file',
+                $request->file('file'),
+            );
+            //$file->move($destinationPath, $name);
+
+            $data = ManajemenUangModel::create([
+                'id_user' => $request->input('id_user'),
+                'id_periode' => $request->input('id_periode'),
+                'nama_dana' => $request->input('nama_dana'),
+                'penanggung_jawab' => $request->input('penanggung_jawab'),
+                'file' => $name,
+                'jumlah' => $request->input('jumlah'),
+                'keterangan' => $request->input('keterangan'),
+            ]);
+
+            $data->save();
+            Alert::success('Data Pengeluaran Berhasil Disimpan!');
             return back();
         }
+    }
+
+    public function downloadFile(Request $request)
+    {
+        $file=$request->input('file');
+
+        return response()->download(storage_path('app/file/' . $file));
+
     }
 }
