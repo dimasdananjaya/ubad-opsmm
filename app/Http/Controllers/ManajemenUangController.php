@@ -28,13 +28,14 @@ class ManajemenUangController extends Controller
     {
         $id_periode=$request->input('id_periode');
         $periode = PeriodeModel::where('id_periode', $id_periode)->first();
-        $dataTotalLaporanManajemenUang=DB::select(DB::raw("SELECT dana_operasional.jumlah, SUM(jumlah) AS total_pengeluaran from dana_operasional 
-        WHERE id_periode=$id_periode GROUP BY 1"));
-        $dataLaporanManajemenUang=DB::select(DB::raw("SELECT * FROM dana_operasional WHERE id_periode=$id_periode"));
+
+        $totalPengeluaran=DB::select(DB::raw("SELECT dana_operasional.jumlah, SUM(jumlah) AS total_pengeluaran from dana_operasional 
+        WHERE id_periode=$id_periode"));
+        $listPengeluaran=DB::select(DB::raw("SELECT * FROM dana_operasional WHERE id_periode=$id_periode"));
 
         return view('admin.admin-manajemen-uang-periode')
-        ->with('dataLaporanManajemenUang',$dataLaporanManajemenUang)
-        ->with('dataTotalLaporanManajemenUang',$dataTotalLaporanManajemenUang)
+        ->with('listPengeluaran',$listPengeluaran)
+        ->with('totalPengeluaran',$totalPengeluaran)
         ->with('periode',$periode);
     }
 
@@ -47,6 +48,7 @@ class ManajemenUangController extends Controller
             'file'=> 'required',
             'jumlah'=> 'required',
             'keterangan'=> 'required',
+            'tanggal'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -72,6 +74,7 @@ class ManajemenUangController extends Controller
                 'file' => $name,
                 'jumlah' => $request->input('jumlah'),
                 'keterangan' => $request->input('keterangan'),
+                'tanggal' => $request->input('tanggal'),
             ]);
 
             $data->save();
@@ -93,6 +96,7 @@ class ManajemenUangController extends Controller
             'file'=> 'required',
             'jumlah'=> 'required',
             'keterangan'=> 'required',
+            'tanggal'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -105,9 +109,8 @@ class ManajemenUangController extends Controller
             $file = $request->file('file');
             $name = time() . '.' . $file->getClientOriginalExtension();
             //$destinationPath = public_path('/resources/file');
-            $path = Storage::putFile(
-                'public/file',
-                $request->file('file'),
+            $path = $request->file('file')->storeAs(
+                'file', $name
             );
             //$file->move($destinationPath, $name);
 
@@ -119,6 +122,7 @@ class ManajemenUangController extends Controller
                 'file' => $name,
                 'jumlah' => $request->input('jumlah'),
                 'keterangan' => $request->input('keterangan'),
+                'tanggal' => $request->input('tanggal'),
             ]);
 
             $data->save();

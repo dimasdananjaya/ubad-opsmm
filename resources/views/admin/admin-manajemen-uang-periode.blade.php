@@ -14,7 +14,9 @@
                         </div>
                         <div class="card-body">
                             <img src="{{asset('resources/logo/total-pengeluaran.svg')}}" class="navbar-logo" alt="Image"/>
-                            <p><b>Rp. 15.000.000</b></p>
+                            @foreach($totalPengeluaran as $tp)
+                                <p><b>Rp. {{ number_format($tp->total_pengeluaran, 2, ',', '.') }}</b></p>
+                            @endforeach
                         </div>
                     </div><!--card-->
 
@@ -24,7 +26,14 @@
                         </div>
                         <div class="card-body">
                             <img src="{{asset('resources/logo/sisa-dana.svg')}}" class="navbar-logo" alt="Image"/>
-                            <p><b>Rp. 15.000.000</b></p>
+                            @foreach ($totalPengeluaran as $tp)
+                                <?php
+                                    $dana=$periode->dana;
+                                    $pengeluaran=$tp->total_pengeluaran;
+                                    $sisa_dana = $dana-$pengeluaran;
+                                ?>
+                                <p><b>Rp. {{ number_format($sisa_dana, 2, ',', '.') }}</b></p>
+                            @endforeach
                         </div>
                     </div><!--card-->
 
@@ -35,7 +44,7 @@
                         </div>
                         <div class="card-body">
                             <img src="{{asset('resources/logo/modal-awal.svg')}}" class="navbar-logo" alt="Image"/>
-                            <p><b>Rp. 15.000.000</b></p>
+                            <p><b>Rp. {{ number_format($periode->dana, 2, ',', '.') }}</b></p>
                         </div>
                     </div><!--card-->
             </div><!--carousel-->
@@ -54,6 +63,8 @@
                         </div><!-- modal header-->
                         <div class="modal-body">
                             {!!Form::open(['action'=>'ManajemenUangController@storePengeluaran', 'method'=>'POST','files' => true])!!}
+                                {{Form::label('tanggal','Tanggal :')}}
+                                {{ Form::text('deadline', null, ['class' => 'form-control', 'id'=>'datetimepicker']) }}
                                 {{Form::label('nama_dana','Nama Dana :')}}
                                 {{Form::text('nama_dana','',['class'=>'form-control form-group','required'])}}
                                 {{Form::label('jumlah','Jumlah :')}}
@@ -83,6 +94,7 @@
             <table id="tabel" class="table table-sm table-hover table-striped text-center table-responsive-sm table-responsive-md">
                 <thead>
                     <th>No.</th>
+                    <th>Tanggal</th>
                     <th>Nama Dana</th>
                     <th>Jumlah</th>
                     <th>Penanggung Jawab</th>
@@ -92,25 +104,26 @@
                     <th></th>
                 </thead>
                 <tbody>
-                    @foreach ($dataLaporanManajemenUang as $dtlpmu)
+                    @foreach ($listPengeluaran as $lsp)
                     <tr>
                         <td></td>
-                        <td>{{$dtlpmu->nama_dana}}</td>
-                        <td>{{$dtlpmu->jumlah}}</td>
-                        <td>{{$dtlpmu->penanggung_jawab}}</td>
-                        <td>{{$dtlpmu->keterangan}}</td>
+                        <td>{{$lsp->tanggal}}</td>
+                        <td>{{$lsp->nama_dana}}</td>
+                        <td>{{$lsp->jumlah}}</td>
+                        <td>{{$lsp->penanggung_jawab}}</td>
+                        <td>{{$lsp->keterangan}}</td>
                         <td>
-                            {!!Form::open(['action'=>['ManajemenUangController@downloadFile', $dtlpmu->id_dana_operasional], 'method'=>'GET'])!!}
-                                {{Form::hidden('file',$dtlpmu->file)}}
+                            {!!Form::open(['action'=>['ManajemenUangController@downloadFile', $lsp->id_dana_operasional], 'method'=>'GET'])!!}
+                                {{Form::hidden('file',$lsp->file)}}
                                 {{Form::submit('Download File',['class'=>'btn btn-light'])}}
                             {!!Form::close()!!}
                         <td>
                             <a class="btn btn-success" style="color:#fff;float:center;" data-toggle="modal" 
-                            data-target="#periode-edit-modal{{$dtlpmu->id_dana_operasional}}">Edit</a>
+                            data-target="#periode-edit-modal{{$lsp->id_dana_operasional}}">Edit</a>
                         </td>
                         <td></td>          
                         <!-- Modal Edit Periode-->
-                        <div class="modal fade" id="periode-edit-modal{{$dtlpmu->id_dana_operasional}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="periode-edit-modal{{$lsp->id_dana_operasional}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -120,10 +133,21 @@
                                     </button>
                                     </div>
                                     <div class="modal-body">                  
-                                        {!!Form::open(['action'=>['ManajemenUangController@updatePengeluaran', $dtlpmu->id_dana_operasional], 'method'=>'PUT'])!!}
-                                            {{Form::label('periode','Periode :')}}
-                                            {{Form::text('periode','',['class'=>'form-control form-group','placeholder'=>'Periode'])}}
-                                            {{Form::hidden('_method','PUT')}}
+                                        {!!Form::open(['action'=>['ManajemenUangController@updatePengeluaran',$lsp->id_dana_operasional], 'method'=>'PUT','files' => true])!!}
+                                            {{Form::label('tanggal','Tanggal :')}}
+                                            {{Form::text('tanggal', $lsp->tanggal, ['class' => 'form-control', 'id'=>'datetimepicker']) }}
+                                            {{Form::label('nama_dana','Nama Dana :')}}
+                                            {{Form::text('nama_dana',$lsp->nama_dana,['class'=>'form-control form-group','required'])}}
+                                            {{Form::label('jumlah','Jumlah :')}}
+                                            {{Form::number('jumlah',$lsp->jumlah,['class'=>'form-control form-group','required'])}}
+                                            {{Form::label('penanggung_jawab','Penanggung Jawab :')}}
+                                            {{Form::text('penanggung_jawab',$lsp->penanggung_jawab,['class'=>'form-control form-group','required'])}}
+                                            {{Form::label('keterangan','Keterangan :')}}
+                                            {{Form::textarea('keterangan',$lsp->keterangan,['class'=>'form-control form-group','required'])}}
+                                            {{Form::label('file','File :')}}
+                                            {{Form::file('file')}}
+                                            {{Form::hidden('id_user',Auth::user()->id_user)}}
+                                            {{Form::hidden('id_periode',$periode->id_periode)}}
                                             {{Form::submit('Update',['class'=>'btn btn-success btn-block'])}}
                                         {!!Form::close()!!}
                                     </div>
@@ -160,6 +184,7 @@
             } );
         } ).draw();
     } );
+
 </script>
 @endsection
 

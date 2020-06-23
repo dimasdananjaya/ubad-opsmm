@@ -119,4 +119,11 @@ body{
     max-height: 17em;
 }
 
-/*************end admin-kelola-periode page********************/
+/*************end admin-pilih-periode page********************/
+
+#admin-pilih-periode .card{
+    border-radius: 0.6em 0.6em 0.6em 0.6em;
+    padding: 1.5em 1.5em 1.5em 1.5em;
+}
+
+/*************admin-pilih-periode page********************/

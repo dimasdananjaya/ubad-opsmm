@@ -10,5 +10,5 @@ class PeriodeModel extends Model
     protected $primaryKey='id_periode';
     public $timestamps=true;
 
-    protected $fillable = ['periode','status'];
+    protected $fillable = ['periode','status','dana'];
 }

@@ -56,6 +56,7 @@ class PeriodeController extends Controller
         $validator = Validator::make($request->all(), [
             'periode' => 'required|unique:periode|max:255',
             'status'=> 'required',
+            'dana'=> 'required',
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +67,7 @@ class PeriodeController extends Controller
             $periode = PeriodeModel::create([
                 'periode' => $request->input('periode'),
                 'status' => 'aktif',
+                'status' => $request->input('dana'),
             ]);
 
             $periode->save();
@@ -107,7 +109,8 @@ class PeriodeController extends Controller
     {
         $simpan=PeriodeModel::find($id);
         $simpan->periode=$request->input('periode');
-        $simpan->status=$request->input('status');   
+        $simpan->status=$request->input('status');
+        $simpan->dana=$request->input('dana');
         
         $validator = Validator::make($request->all(), [
             'periode' => 'required|unique:periode,periode,'.$simpan->id_periode.',id_periode'
@@ -119,11 +122,6 @@ class PeriodeController extends Controller
         }
 
         else{
-            DB::select(DB::raw(" 
-            UPDATE periode
-            SET status='non-aktif'
-            WHERE id_periode != $simpan->id_periode "
-            ));
             $simpan->save();
             Alert::success('Periode Berhasil Disimpan!', 'Kembali');
             return back();
@@ -148,12 +146,5 @@ class PeriodeController extends Controller
     {
         $dataPeriode=PeriodeModel::all();
         return view('admin.admin-pilih-periode')->with('dataPeriode',$dataPeriode);
-    }
-
-    //this function is for dosen-pilih-periode page
-    public function dosenPilihPeriodeLaporan()
-    {
-        $dataPeriode=PeriodeModel::all()->where('status','aktif');
-        return view('dosen.dosen-pilih-periode')->with('dataPeriode',$dataPeriode);
     }
 }

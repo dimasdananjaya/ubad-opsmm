@@ -25,6 +25,8 @@
                             {!!Form::open(['action'=>'PeriodeController@store', 'method'=>'POST'])!!}
                                 {{Form::label('periode','Periode :')}}
                                 {{Form::text('periode','',['class'=>'form-control form-group','placeholder'=>'Periode','required'])}}
+                                {{Form::label('dana','Dana :')}}
+                                {{Form::number('dana','',['class'=>'form-control form-group','placeholder'=>'Dana','required'])}}
                                 {{Form::hidden('status','aktif')}}
                                 {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                             {!!Form::close()!!}
@@ -40,6 +42,7 @@
                 <thead>
                     <th>Periode</th>
                     <th>Status</th>
+                    <th>Dana</th>
                     <th>Aksi</th>
                 </thead>
                 <tbody>
@@ -47,6 +50,7 @@
                     <tr>
                         <td>{{$dtprd->periode}}</td>
                         <td>{{$dtprd->status}}</td>
+                        <td>Rp. {{ number_format($dtprd->dana, 2, ',', '.') }}</td>
                         <td>
                             <a class="btn btn-success" style="color:#fff;float:center;" data-toggle="modal" data-target="#periode-edit-modal{{$dtprd->id_periode}}">Edit</a>
                         </td>          
@@ -64,6 +68,8 @@
                                         {!!Form::open(['action'=>['PeriodeController@update', $dtprd->id_periode], 'method'=>'PUT'])!!}
                                             {{Form::label('periode','Periode :')}}
                                             {{Form::text('periode',$dtprd->periode,['class'=>'form-control form-group','placeholder'=>'Periode'])}}
+                                            {{Form::label('dana','Dana :')}}
+                                            {{Form::number('dana',$dtprd->dana,['class'=>'form-control form-group','placeholder'=>'Dana'])}}
                                             {{Form::label('periode','Periode :')}}
                                             <select name="status" class="form-group form-control">
                                                 <option value="aktif" class="form-group form-control">Aktif</option>

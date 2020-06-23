@@ -10,5 +10,5 @@ class ManajemenUangModel extends Model
     protected $primaryKey='id_dana_operasional';
     public $timestamps=true;
 
-    protected $fillable = ['id_user','id_periode','nama_dana','jumlah','penanggung_jawab','keterangan','file'];
+    protected $fillable = ['id_user','id_periode','nama_dana','jumlah','penanggung_jawab','keterangan','file','tanggal'];
 }
