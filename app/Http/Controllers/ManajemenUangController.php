@@ -93,7 +93,6 @@ class ManajemenUangController extends Controller
             'id_periode'=> 'required',
             'nama_dana' => 'required',
             'penanggung_jawab'=> 'required',
-            'file'=> 'required',
             'jumlah'=> 'required',
             'keterangan'=> 'required',
             'tanggal'=>'required',
@@ -106,6 +105,9 @@ class ManajemenUangController extends Controller
 
         elseif($request->hasFile('file')){
 
+            $delete = $request->input('file'); //cari nama file
+            Storage::delete('file/'.$delete); //hapus file
+
             $file = $request->file('file');
             $name = time() . '.' . $file->getClientOriginalExtension();
             //$destinationPath = public_path('/resources/file');
@@ -114,19 +116,32 @@ class ManajemenUangController extends Controller
             );
             //$file->move($destinationPath, $name);
 
-            $data = ManajemenUangModel::create([
-                'id_user' => $request->input('id_user'),
-                'id_periode' => $request->input('id_periode'),
-                'nama_dana' => $request->input('nama_dana'),
-                'penanggung_jawab' => $request->input('penanggung_jawab'),
-                'file' => $name,
-                'jumlah' => $request->input('jumlah'),
-                'keterangan' => $request->input('keterangan'),
-                'tanggal' => $request->input('tanggal'),
-            ]);
+            $data->id_user = $request->input('id_user');
+            $data->id_periode = $request->input('id_periode');
+            $data->nama_dana = $request->input('nama_dana');
+            $data->penanggung_jawab = $request->input('penanggung_jawab');
+            $data->file = $name;
+            $data->jumlah = $request->input('jumlah');
+            $data->keterangan = $request->input('keterangan');
+            $data->tanggal = $request->input('tanggal');
 
             $data->save();
-            Alert::success('Data Pengeluaran Berhasil Disimpan!');
+            Alert::success('Data Pengeluaran Berhasil Diupdate!');
+            return back();
+        }
+
+        else{
+            $data->id_user = $request->input('id_user');
+            $data->id_periode = $request->input('id_periode');
+            $data->nama_dana = $request->input('nama_dana');
+            $data->penanggung_jawab = $request->input('penanggung_jawab');
+            $data->file = $request->input('file');
+            $data->jumlah = $request->input('jumlah');
+            $data->keterangan = $request->input('keterangan');
+            $data->tanggal = $request->input('tanggal');
+            
+            $data->save();
+            Alert::success('Data Pengeluaran Berhasil Diupdate!');
             return back();
         }
     }
@@ -137,5 +152,15 @@ class ManajemenUangController extends Controller
 
         return response()->download(storage_path('app/file/' . $file));
 
+    }
+
+    public function hapusDataPengeluaran(Request $request, $id)
+    {
+        $delete = $request->input('file'); //cari nama file
+        Storage::delete('file/'.$delete); //hapus file
+
+        ManajemenUangModel::find($id)->delete();
+        Alert::success('Data Pengeluaran Berhasil Dihapus!', 'Kembali');
+        return back();
     }
 }

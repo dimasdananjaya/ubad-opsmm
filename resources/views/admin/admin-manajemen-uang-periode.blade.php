@@ -64,7 +64,7 @@
                         <div class="modal-body">
                             {!!Form::open(['action'=>'ManajemenUangController@storePengeluaran', 'method'=>'POST','files' => true])!!}
                                 {{Form::label('tanggal','Tanggal :')}}
-                                {{ Form::text('deadline', null, ['class' => 'form-control', 'id'=>'datetimepicker']) }}
+                                {{ Form::text('tanggal', '', ['class' => 'form-control']) }}
                                 {{Form::label('nama_dana','Nama Dana :')}}
                                 {{Form::text('nama_dana','',['class'=>'form-control form-group','required'])}}
                                 {{Form::label('jumlah','Jumlah :')}}
@@ -109,7 +109,7 @@
                         <td></td>
                         <td>{{$lsp->tanggal}}</td>
                         <td>{{$lsp->nama_dana}}</td>
-                        <td>{{$lsp->jumlah}}</td>
+                        <td>Rp. {{ number_format($lsp->jumlah, 2, ',', '.') }}</td>
                         <td>{{$lsp->penanggung_jawab}}</td>
                         <td>{{$lsp->keterangan}}</td>
                         <td>
@@ -121,8 +121,14 @@
                             <a class="btn btn-success" style="color:#fff;float:center;" data-toggle="modal" 
                             data-target="#periode-edit-modal{{$lsp->id_dana_operasional}}">Edit</a>
                         </td>
-                        <td></td>          
-                        <!-- Modal Edit Periode-->
+                        <td>
+                            {!!Form::open(['action'=>['ManajemenUangController@hapusDataPengeluaran', $lsp->id_dana_operasional], 'method'=>'POST','id'=>'delete-button'.$lsp->id_dana_operasional])!!}
+                                {{Form::hidden('file',$lsp->file)}}
+                                {{Form::hidden('_method', 'DELETE')}}       
+                                {{Form::submit('Delete',['class'=>'btn btn-danger btn-orders-cancel'])}}
+                            {!!Form::close()!!}
+                        </td>          
+                        <!-- Modal Edit Pengeluaran-->
                         <div class="modal fade" id="periode-edit-modal{{$lsp->id_dana_operasional}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
@@ -148,15 +154,16 @@
                                             {{Form::file('file')}}
                                             {{Form::hidden('id_user',Auth::user()->id_user)}}
                                             {{Form::hidden('id_periode',$periode->id_periode)}}
+                                            {{Form::hidden('file',$lsp->file)}}
                                             {{Form::submit('Update',['class'=>'btn btn-success btn-block'])}}
                                         {!!Form::close()!!}
                                     </div>
                                     <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </div><!-- modal content-->
+                            </div><!-- modal dialog-->
+                        </div><!-- modal fade-->
                     </tr>
                     @endforeach
                 </tbody>

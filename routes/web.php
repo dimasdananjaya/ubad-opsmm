@@ -29,4 +29,5 @@ Route::get('/admin-show-manajemen-periode', 'ManajemenUangController@showManajem
 Route::get('/download-file', 'ManajemenUangController@downloadFile')->name('admin.download.file');
 Route::post('/admin-store-pengeluaran', 'ManajemenUangController@storePengeluaran')->name('admin.store.pengeluaran');
 Route::put('/admin-store-update-pengeluaran/{id}', 'ManajemenUangController@updatePengeluaran')->name('admin.update.pengeluaran');
+Route::delete('/destroy-data-pengeluaran/{id}', 'ManajemenUangController@hapusDataPengeluaran')->name('destroy.data.pengeluaran');
 Route::get('/home', 'HomeController@index')->name('home');
