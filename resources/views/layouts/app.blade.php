@@ -31,9 +31,15 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <div class="navbar-header d-flex col">
+                @if(Auth::check())
+                <a class="navbar-brand" href="/admin"><img src="{{asset('resources/logo/balidwipa.png')}}" class="navbar-logo" alt="Image"/>
+                    UBAD OPSMM
+                </a>
+                @else
                 <a class="navbar-brand" href="/"><img src="{{asset('resources/logo/balidwipa.png')}}" class="navbar-logo" alt="Image"/>
                     UBAD OPSMM
                 </a>
+                @endif
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -97,9 +103,6 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <script>
-        $(document).ready(function(){
-            $("#datetimepicker").datepicker();
-        });
         
         $ (".carousel").slick({
             arrows: false,

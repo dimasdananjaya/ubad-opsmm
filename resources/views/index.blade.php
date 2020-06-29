@@ -9,7 +9,7 @@
             </div>
             <div class="card-body text-center">
                 <div class="card-text">
-                    <h4><b>Ubad Operasional Money Management System</b></h4>
+                    <h4><b>Ubad Operational Money Management System</b></h4>
                     <p><small>login to continue</small></p>
                     <a class="btn btn-primary round-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
                 </div>

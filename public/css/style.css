@@ -8,6 +8,12 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 
+/*************login page********************/
+#login img{
+    width: 18em;
+    height: 20em;
+}
+/*************end login page********************/
 
 /*************index page********************/
 #index-page .card{
