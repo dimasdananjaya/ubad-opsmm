@@ -13,7 +13,7 @@
                             <img style="width: 20em; height:18em;" src="{{asset('resources/logo/admin-home-kelola-dana.svg')}}">
                         </div><!--end card-header-->
                         <div class="card-body">
-                            <h5 class="card-title"><b>Dana Opersional</b></h5>
+                            <h5 class="card-title"><b>Dana Operasional</b></h5>
                             <p class="card-text">Kelola dana operasional per-periode</p>
                             <a href="{{route('admin.pilih.periode')}}" class="btn btn-primary round-btn">Pilih</a>
                         </div><!--end card-body-->
