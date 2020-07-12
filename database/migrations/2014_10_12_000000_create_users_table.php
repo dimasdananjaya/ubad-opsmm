@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id_periode');
             $table->string('periode');
             $table->string('status');
+            $table->decimal(20,2);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -39,6 +40,9 @@ class CreateUsersTable extends Migration
             $table->string('nama_dana');
             $table->string('penanggung_jawab');
             $table->string('file');
+            $table->string('jumlah');
+            $table->string('keterangan');
+            $table->string('tanggal');
             $table->rememberToken();
             $table->timestamps();
 
