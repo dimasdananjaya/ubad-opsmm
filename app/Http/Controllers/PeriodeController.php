@@ -67,7 +67,7 @@ class PeriodeController extends Controller
             $periode = PeriodeModel::create([
                 'periode' => $request->input('periode'),
                 'status' => 'aktif',
-                'status' => $request->input('dana'),
+                'dana' => $request->input('dana'),
             ]);
 
             $periode->save();

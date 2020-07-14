@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id_periode');
             $table->string('periode');
             $table->string('status');
-            $table->decimal(20,2);
+            $table->decimal('dana',20,2);
             $table->rememberToken();
             $table->timestamps();
         });
