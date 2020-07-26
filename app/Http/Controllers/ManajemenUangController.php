@@ -9,6 +9,7 @@ use Alert;
 use Validator;
 use App\ManajemenUangModel;
 use Storage;
+use Image;
 
 class ManajemenUangController extends Controller
 {
@@ -58,20 +59,17 @@ class ManajemenUangController extends Controller
 
         elseif($request->hasFile('file')){
 
-            $file = $request->file('file');
-            $name = time() . '.' . $file->getClientOriginalExtension();
-            //$destinationPath = public_path('/resources/file');
-            $path = $request->file('file')->storeAs(
-                'file', $name
-            );
-            //$file->move($destinationPath, $name);
+            $image = $request->file('file');
+            $image_name = time() . '.' . $image->getClientOriginalExtension(); 
+            $destinationPath = storage_path('app/public/file');
+            Image::make($image->getRealPath())->resize(320,440)->save($destinationPath . '/' . $image_name);
 
             $data = ManajemenUangModel::create([
                 'id_user' => $request->input('id_user'),
                 'id_periode' => $request->input('id_periode'),
                 'nama_dana' => $request->input('nama_dana'),
                 'penanggung_jawab' => $request->input('penanggung_jawab'),
-                'file' => $name,
+                'file' => $image_name,
                 'jumlah' => $request->input('jumlah'),
                 'keterangan' => $request->input('keterangan'),
                 'tanggal' => $request->input('tanggal'),
@@ -106,21 +104,18 @@ class ManajemenUangController extends Controller
         elseif($request->hasFile('file')){
 
             $delete = $request->input('file'); //cari nama file
-            Storage::delete('file/'.$delete); //hapus file
+            Storage::delete('public/file/'.$delete); //hapus file
 
-            $file = $request->file('file');
-            $name = time() . '.' . $file->getClientOriginalExtension();
-            //$destinationPath = public_path('/resources/file');
-            $path = $request->file('file')->storeAs(
-                'file', $name
-            );
-            //$file->move($destinationPath, $name);
+            $image = $request->file('file');
+            $image_name = time() . '.' . $image->getClientOriginalExtension(); 
+            $destinationPath = storage_path('app/public/file');
+            Image::make($image->getRealPath())->resize(540,660)->save($destinationPath . '/' . $image_name);
 
             $data->id_user = $request->input('id_user');
             $data->id_periode = $request->input('id_periode');
             $data->nama_dana = $request->input('nama_dana');
             $data->penanggung_jawab = $request->input('penanggung_jawab');
-            $data->file = $name;
+            $data->file = $image_name;
             $data->jumlah = $request->input('jumlah');
             $data->keterangan = $request->input('keterangan');
             $data->tanggal = $request->input('tanggal');
@@ -150,14 +145,14 @@ class ManajemenUangController extends Controller
     {
         $file=$request->input('file');
 
-        return response()->download(storage_path('app/file/' . $file));
+        return response()->download(storage_path('app/public/file/' . $file));
 
     }
 
     public function hapusDataPengeluaran(Request $request, $id)
     {
         $delete = $request->input('file'); //cari nama file
-        Storage::delete('file/'.$delete); //hapus file
+        Storage::delete('public/file/'.$delete); //hapus file
 
         ManajemenUangModel::find($id)->delete();
         Alert::success('Data Pengeluaran Berhasil Dihapus!', 'Kembali');
