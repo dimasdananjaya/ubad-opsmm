@@ -31,3 +31,6 @@ Route::post('/admin-store-pengeluaran', 'ManajemenUangController@storePengeluara
 Route::put('/admin-store-update-pengeluaran/{id}', 'ManajemenUangController@updatePengeluaran')->name('admin.update.pengeluaran');
 Route::delete('/destroy-data-pengeluaran/{id}', 'ManajemenUangController@hapusDataPengeluaran')->name('destroy.data.pengeluaran');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/pimpinan-pilih-periode', 'LaporanController@pimpinanPilihPeriodeLaporan')->name('pimpinan.periode');
+Route::get('/pimpinan-show-laporan', 'LaporanController@laporanManajemenUangPeriode')->name('pimpinan.show.laporan');

@@ -97,6 +97,16 @@
         @yield('content')
     </main>
 
+    <footer class="fdb-block footer-small">
+        <div class="container">
+            <div class="row text-center">
+            <div class="col">
+                <p style="color: #fff;"><small>© 2020 Created by 'A.A. Gede Dims Dananjaya'</small></p>
+            </div>
+            </div>
+        </div>
+    </footer>
+
     <!--datatable-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" defer></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js" defer></script>
