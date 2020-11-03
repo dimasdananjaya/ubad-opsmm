@@ -65,7 +65,7 @@
                     @foreach ($listPengeluaran as $lsp)
                     <tr>
                         <td></td>
-                        <td>{{$lsp->tanggal}}</td>
+                        <td>{{$lsp->created_at}}</td>
                         <td>{{$lsp->nama_dana}}</td>
                         <td>Rp. {{ number_format($lsp->jumlah, 2, ',', '.') }}</td>
                         <td>{{$lsp->penanggung_jawab}}</td>

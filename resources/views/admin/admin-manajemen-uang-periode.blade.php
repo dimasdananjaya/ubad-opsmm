@@ -64,7 +64,7 @@
                         <div class="modal-body">
                             {!!Form::open(['action'=>'ManajemenUangController@storePengeluaran', 'method'=>'POST','files' => true])!!}
                                 {{Form::label('tanggal','Tanggal :')}}
-                                {{ Form::text('tanggal', '', ['class' => 'form-control']) }}
+                                {{Form::date('tanggal', '', ['class' => 'form-control']) }}
                                 {{Form::label('nama_dana','Nama Dana :')}}
                                 {{Form::text('nama_dana','',['class'=>'form-control form-group','required'])}}
                                 {{Form::label('jumlah','Jumlah :')}}
@@ -107,7 +107,7 @@
                     @foreach ($listPengeluaran as $lsp)
                     <tr>
                         <td></td>
-                        <td>{{$lsp->tanggal}}</td>
+                        <td>{{$lsp->created_at}}</td>
                         <td>{{$lsp->nama_dana}}</td>
                         <td>Rp. {{ number_format($lsp->jumlah, 2, ',', '.') }}</td>
                         <td>{{$lsp->penanggung_jawab}}</td>

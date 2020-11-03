@@ -43,6 +43,7 @@ class CreateUsersTable extends Migration
             $table->string('jumlah');
             $table->string('keterangan');
             $table->string('tanggal');
+            $table->date('date');
             $table->rememberToken();
             $table->timestamps();
 
